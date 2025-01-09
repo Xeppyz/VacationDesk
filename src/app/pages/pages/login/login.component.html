@@ -1,0 +1,40 @@
+<!-- login.component.html -->
+
+<div class="login">
+  <form class="custom-form" method="post">
+    <h1>VACATIONDESK</h1>
+    <input
+      type="email"
+      [(ngModel)]="email"
+      name="email"
+      placeholder="Usuario"
+      required="required"
+    />
+    <input
+      type="password"
+      [(ngModel)]="password"
+      name="password"
+      placeholder="Contraseña"
+      required="required"
+    />
+    <!-- Catálogo de opciones -->
+
+    <h4>Seleccione su empresa</h4>
+    <mat-form-field>
+      <mat-label>Empresa</mat-label>
+      <mat-select
+        [(ngModel)]="selectedOption"
+        name="option"
+        required
+        class="custom-select"
+        panelClass="dropdown-panel"
+      >
+        <mat-option *ngFor="let option of options" [value]="option.value">
+          {{ option.viewValue }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button type="submit" (click)="login()">Log in</button>
+  </form>
+</div>
