@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { UserService } from '../../../core/services/user.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UserResponse } from '../../../core/models/user.mode';
 
 @Component({
   selector: 'app-login',
@@ -49,22 +50,53 @@ export class LoginComponent {
       duration: 3000, // Duración en milisegundos (3 segundos)
     });
   }
-
   login() {
-    if (!this.email || !this.password) {
-      this.openSnackBar('Por favor, complete todos los campos.');
-      return;
-    }
-
     this.userService.validateUser(this.email, this.password).subscribe(
-      (data) => {
-        this.openSnackBar('Login exitoso.');
-        console.log('Validación exitosa:', data);
-        this.router.navigateByUrl('/');
+      (data: UserResponse[]) => {
+        console.log('Datos recibidos del servidor:', data);
+
+        if (Array.isArray(data) && data.length > 0) {
+          const user = data[0]; // Accedemos al primer usuario
+          console.log('Primer objeto de la respuesta:', user);
+
+          const token = user.CREFCH;
+          const role = user.ROLPAQ;
+
+          console.log('Token recibido:', token);
+          console.log('ROLPAQ recibido:', role);
+
+          this.userService.setToken(token, role);
+
+          const mappedRole = this.userService.mapRole(role);
+          console.log('Rol mapeado después de guardar:', mappedRole);
+
+          // Redirige según el rol
+          switch (mappedRole) {
+            case '3':
+              this.router.navigateByUrl('dashboard');
+              break;
+            case '2':
+              this.router.navigateByUrl('superior-dashboard');
+              break;
+            case '1':
+              this.router.navigateByUrl('colaborador-dashboard');
+              break;
+            default:
+              this.router.navigateByUrl('unauthorized');
+              break;
+          }
+        } else {
+          console.error(
+            'Respuesta inesperada del servidor. No hay datos disponibles.'
+          );
+          this.openSnackBar(
+            'Error: No se recibieron datos válidos del servidor.'
+          );
+        }
       },
       (error) => {
-        this.openSnackBar('Credenciales incorrectas o error en el servidor.');
         console.error('Error al validar el usuario:', error);
+        this.openSnackBar('Credenciales incorrectas o error en el servidor.');
       }
     );
   }

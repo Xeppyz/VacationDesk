@@ -5,7 +5,7 @@
   "projects": {
     "VacationsDesk": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {"@schematics/angular:service": {"skipTests": true}, "@schematics/angular:component": {"skipTests": true}},
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -27,6 +27,7 @@
               }
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/cyan-orange.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -65,7 +66,10 @@
               "buildTarget": "VacationsDesk:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "proxyConfig": "proxy.conf.json"
+          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n"
@@ -85,6 +89,8 @@
               }
             ],
             "styles": [
+             "@angular/material/prebuilt-themes/deeppurple-amber.css",
+
               "src/styles.css"
             ],
             "scripts": []
@@ -92,5 +98,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
