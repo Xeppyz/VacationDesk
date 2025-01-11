@@ -1,1 +1,9 @@
-<p>dashboard works!</p>
+<div *ngIf="userServices.getRole() === 'administrator'">
+  <p>Contenido exclusivo para Administradores</p>
+</div>
+<div *ngIf="userServices.getRole() === 'superior'">
+  <p>Contenido exclusivo para Superiores</p>
+</div>
+<div *ngIf="userServices.getRole() === 'colaborador'">
+  <p>Contenido exclusivo para Colaboradores</p>
+</div>

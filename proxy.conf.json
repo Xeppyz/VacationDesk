@@ -1,0 +1,18 @@
+{
+    "/ApiErp": {
+      "target": "http://10.20.30.29:81/",
+      "secure": false,
+      "changeOrigin": true,
+      "logLevel": "debug"
+    },
+
+    
+      "/BotApi": {
+        "target": "http://138.97.160.18:81",
+        "secure": false,
+        "changeOrigin": true,
+        "logLevel": "debug"
+      }
+    
+    
+  }
